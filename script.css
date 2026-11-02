@@ -1,0 +1,122 @@
+
+// SMARTROOT WATER SAVER 2.0
+// Shared JavaScript for all website pages
+
+
+// 1. DARK MODE
+
+const themeBtn = document.getElementById("themeBtn");
+
+if (themeBtn) {
+
+    themeBtn.addEventListener("click", function() {
+
+        document.body.classList.toggle("dark");
+
+        if (document.body.classList.contains("dark")) {
+            themeBtn.textContent = "☀️ Light Mode";
+        } else {
+            themeBtn.textContent = "🌙 Dark Mode";
+        }
+
+    });
+
+}
+
+
+// 2. WATER SAVING CALCULATOR
+
+const calculateBtn = document.getElementById("calculateBtn");
+
+if (calculateBtn) {
+
+    calculateBtn.addEventListener("click", function() {
+
+        const normalInput = document.getElementById("normalWater");
+        const smartInput = document.getElementById("smartWater");
+        const daysInput = document.getElementById("days");
+
+        const normalWater = Number(normalInput.value);
+        const smartWater = Number(smartInput.value);
+        const days = Number(daysInput.value);
+
+        const result = document.getElementById("result");
+
+        // Validate inputs
+
+        if (
+            normalInput.value === "" ||
+            smartInput.value === "" ||
+            daysInput.value === "" ||
+            !Number.isFinite(normalWater) ||
+            !Number.isFinite(smartWater) ||
+            !Number.isFinite(days) ||
+            normalWater <= 0 ||
+            smartWater < 0 ||
+            days <= 0 ||
+            !Number.isInteger(days)
+        ) {
+
+            result.textContent =
+                "Please enter valid water amounts and a positive whole number of days.";
+
+            return;
+
+        }
+
+        // Calculate water consumption
+
+        const ordinaryTotal = normalWater * days;
+        const smartTotal = smartWater * days;
+
+        const waterSaved = ordinaryTotal - smartTotal;
+
+        const percentage =
+            (waterSaved / ordinaryTotal) * 100;
+
+        // Display results
+
+        if (waterSaved >= 0) {
+
+            result.innerHTML = `
+                <h3>💧 Your Water Results</h3>
+
+                <p>Ordinary watering:
+                ${ordinaryTotal.toFixed(2)} litres</p>
+
+                <p>SmartRoot watering:
+                ${smartTotal.toFixed(2)} litres</p>
+
+                <p>Water saved:
+                ${waterSaved.toFixed(2)} litres</p>
+
+                <p>Percentage saved:
+                ${percentage.toFixed(1)}%</p>
+
+                <p>Every Drop Counts! 🌱</p>
+            `;
+
+        } else {
+
+            result.innerHTML = `
+                <h3>Water Consumption Results</h3>
+
+                <p>SmartRoot used
+                ${Math.abs(waterSaved).toFixed(2)}
+                litres more water.</p>
+
+                <p>Try adjusting the wick and testing again.</p>
+            `;
+
+        }
+
+    });
+
+}
+
+
+// 3. WELCOME MESSAGE
+
+console.log("Welcome to SmartRoot Water Saver 2.0!");
+
+console.log("Every Drop Counts, Every Plant Matters!");
